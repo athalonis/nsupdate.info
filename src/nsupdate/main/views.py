@@ -224,7 +224,7 @@ class AddHostView(CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         try:
-            dnstools.add(self.object.get_fqdn(), normalize_ip(self.request.META['REMOTE_ADDR']))
+            dnstools.add(self.object.get_fqdn(), normalize_ip(self.request.META['X-Real-Ip']))
         except dnstools.Timeout:
             success, level, msg = False, messages.ERROR, 'Timeout - communicating to name server failed.'
         except dnstools.NameServerNotAvailable:
@@ -286,7 +286,7 @@ class HostView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(HostView, self).get_context_data(**kwargs)
         context['nav_overview'] = True
-        context['remote_addr'] = normalize_ip(self.request.META['REMOTE_ADDR'])
+        context['remote_addr'] = normalize_ip(self.request.META['X-Real-Ip'])
         return context
 
 

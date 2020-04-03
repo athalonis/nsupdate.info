@@ -85,7 +85,7 @@ def _build_request_info(request):
     # transferred into a normal dict and then the logging format() is still
     # failing when it encounters an unknown key.
     # XXX this is ugly and prone to fail for other format strings
-    for key in ['request.META.REMOTE_ADDR',
+    for key in ['request.META.X-Real-Ip',
                 'request.META.HTTP_USER_AGENT',
                 ]:
         if key not in d:
