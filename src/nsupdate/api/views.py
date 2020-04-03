@@ -47,7 +47,7 @@ def myip_view(request, logger=None):
     """
     # Note: keeping this as a function-based view, as it is frequently used -
     # maybe it is slightly more efficient than class-based.
-    ipaddr = normalize_ip(request.META['X-Real-Ip'])
+    ipaddr = normalize_ip(request.META['HTTP_X_REAL_IP'])
     logger.debug("detected remote ip address: %s" % ipaddr)
     return Response(ipaddr)
 
@@ -68,7 +68,7 @@ class DetectIpView(View):
         # so the session cookie is not received here - thus we access it via
         # the sessionid:
         s = engine.SessionStore(session_key=sessionid)
-        ipaddr = normalize_ip(request.META['X-Real-Ip'])
+        ipaddr = normalize_ip(request.META['HTTP_X_REAL_IP'])
         # as this is NOT the session automatically established and
         # also saved by the framework, we need to use save=True here
         put_ip_into_session(s, ipaddr, save=True)
@@ -250,7 +250,7 @@ class NicUpdateView(View):
             return Response('badagent')
         ipaddr = request.GET.get('myip')
         if not ipaddr:  # None or ''
-            ipaddr = normalize_ip(request.META.get('X-Real-Ip'))
+            ipaddr = normalize_ip(request.META.get('HTTP_X_REAL_IP'))
         secure = request.is_secure()
         return _update_or_delete(host, ipaddr, secure, logger=logger, _delete=delete)
 
@@ -263,7 +263,7 @@ class NicDeleteView(NicUpdateView):
 
         API is pretty much the same as for /nic/update, but it does not update
         the A or AAAA record, but deletes it.
-        The ip address given via myip= param (or determined via X-Real-Ip)
+        The ip address given via myip= param (or determined via HTTP_X_REAL_IP)
         is used to determine the record type for deletion, but is otherwise
         ignored (so you can e.g. give myip=0.0.0.0 for A and myip=:: for AAAA).
 
@@ -305,7 +305,7 @@ class AuthorizedNicUpdateView(View):
         # and logged-in usage - thus misbehaved user agents are no problem.
         ipaddr = request.GET.get('myip')
         if not ipaddr:  # None or empty string
-            ipaddr = normalize_ip(request.META.get('X-Real-Ip'))
+            ipaddr = normalize_ip(request.META.get('HTTP_X_REAL_IP'))
         secure = request.is_secure()
         return _update_or_delete(host, ipaddr, secure, logger=logger, _delete=delete)
 
