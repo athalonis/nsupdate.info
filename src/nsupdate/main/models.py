@@ -89,15 +89,6 @@ class Domain(models.Model):
         validators=[RegexValidator(regex=r"([a-zA-Z0-9-_]+\.)+[a-zA-Z0-9-_]{2,}", message=_("Invalid domain name"))],
         unique=True,
         help_text=_("Name of the zone where dynamic hosts may get added"))
-    nameserver_ip = models.GenericIPAddressField(
-        _("nameserver IP (primary)"),
-        max_length=40,  # ipv6 = 8 * 4 digits + 7 colons
-        help_text=_("IP where the dynamic DNS updates for this zone will be sent to"))
-    nameserver2_ip = models.GenericIPAddressField(
-        _("nameserver IP (secondary)"),
-        max_length=40,  # ipv6 = 8 * 4 digits + 7 colons
-        blank=True, null=True,
-        help_text=_("IP where DNS queries for this zone will be sent to"))
     nameserver_update_secret = models.CharField(
         _("nameserver update secret"),
         max_length=88,  # 512 bits base64 -> 88 bytes
