@@ -327,12 +327,12 @@ def get_ns_info(fqdn):
             # if there are troubles with a nameserver, we set available=False
             # and stop trying working with that nameserver for a while
             raise NameServerNotAvailable("nameserver for domain %s at IP %s was flagged unavailable" % (
-                                         domain, NAMERVER_IP, ))
+                                         domain, NAMESERVER_IP, ))
         else:
             # retry timeout is over, set it available again
             set_ns_availability(domain, True)
     algorithm = getattr(dns.tsig, d.nameserver_update_algorithm)
-    return (NAMERVER_IP, NAMERVER_IP, fqdn.domain, domain, fqdn.host, domain,
+    return (NAMESERVER_IP, NAMESERVER_IP, fqdn.domain, domain, fqdn.host, domain,
             d.nameserver_update_secret, algorithm)
 
 
