@@ -5,6 +5,7 @@ Usually, higher level code wants to call the add/update/delete functions.
 """
 
 import os
+from django.conf import settings
 
 # time to wait for dns name resolving [s]
 RESOLVER_TIMEOUT = float(os.environ.get('DNS_RESOLVER_TIMEOUT', '10.0'))
@@ -14,7 +15,6 @@ UPDATE_TIMEOUT = float(os.environ.get('DNS_UPDATE_TIMEOUT', '20.0'))
 
 # time after we retry to reach a previously unreachable ns [s]
 UNAVAILABLE_RETRY = 120.0
-
 
 import binascii
 import errno
@@ -327,12 +327,12 @@ def get_ns_info(fqdn):
             # if there are troubles with a nameserver, we set available=False
             # and stop trying working with that nameserver for a while
             raise NameServerNotAvailable("nameserver for domain %s at IP %s was flagged unavailable" % (
-                                         domain, NAMESERVER_IP, ))
+                                         domain, settings.NAMESERVER_IP, ))
         else:
             # retry timeout is over, set it available again
             set_ns_availability(domain, True)
     algorithm = getattr(dns.tsig, d.nameserver_update_algorithm)
-    return (NAMESERVER_IP, NAMESERVER_IP, fqdn.domain, domain, fqdn.host, domain,
+    return (settings.NAMESERVER_IP, settings.NAMESERVER_IP, fqdn.domain, domain, fqdn.host, domain,
             d.nameserver_update_secret, algorithm)
 
 
