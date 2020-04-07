@@ -13,6 +13,7 @@ RESOLVER_TIMEOUT = float(os.environ.get('DNS_RESOLVER_TIMEOUT', '10.0'))
 UPDATE_TIMEOUT = float(os.environ.get('DNS_UPDATE_TIMEOUT', '20.0'))
 
 DNS_SERVER_IP = os.environ.get('NAMESERVER_IP', '127.0.0.1')
+print("DNS_SERVER_IP: {}".format(DNS_SERVER_IP))
 
 # time after we retry to reach a previously unreachable ns [s]
 UNAVAILABLE_RETRY = 120.0
