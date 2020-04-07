@@ -12,9 +12,6 @@ RESOLVER_TIMEOUT = float(os.environ.get('DNS_RESOLVER_TIMEOUT', '10.0'))
 # time to wait for dns name updating [s]
 UPDATE_TIMEOUT = float(os.environ.get('DNS_UPDATE_TIMEOUT', '20.0'))
 
-DNS_SERVER_IP = os.environ.get('NAMESERVER_IP', '127.0.0.1')
-print("DNS_SERVER_IP: {}".format(DNS_SERVER_IP))
-
 # time after we retry to reach a previously unreachable ns [s]
 UNAVAILABLE_RETRY = 120.0
 
@@ -330,12 +327,12 @@ def get_ns_info(fqdn):
             # if there are troubles with a nameserver, we set available=False
             # and stop trying working with that nameserver for a while
             raise NameServerNotAvailable("nameserver for domain %s at IP %s was flagged unavailable" % (
-                                         domain, DNS_SERVER_IP, ))
+                                         domain, NAMERVER_IP, ))
         else:
             # retry timeout is over, set it available again
             set_ns_availability(domain, True)
     algorithm = getattr(dns.tsig, d.nameserver_update_algorithm)
-    return (DNS_SERVER_IP, DNS_SERVER_IP, fqdn.domain, domain, fqdn.host, domain,
+    return (NAMERVER_IP, NAMERVER_IP, fqdn.domain, domain, fqdn.host, domain,
             d.nameserver_update_secret, algorithm)
 
 
