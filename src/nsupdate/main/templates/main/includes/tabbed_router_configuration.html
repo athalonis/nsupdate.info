@@ -165,7 +165,7 @@
 # this will update your ipv4 address to the address
 # the web service sees requests coming from:
 protocol=dyndns2
-use=web, web=http://{{ WWW_IPV4_HOST }}/myip
+use=web, web=https://{{ WWW_IPV4_HOST }}/myip
 ssl=yes  # yes = use https for updates
 server={{ WWW_IPV4_HOST }}
 login={{ host.get_fqdn|default:"&lt;your hostname&gt;" }}
@@ -225,7 +225,7 @@ detector = webcheck6
                 protocol dyndns2
                 server {{ WWW_IPV4_HOST }}
             }
-            web http://{{ WWW_IPV4_HOST }}/myip
+            web https://{{ WWW_IPV4_HOST }}/myip
         }
     }
 </pre>
@@ -305,9 +305,9 @@ config service "ipv4ddns"
     option interface "wan"
     option use_syslog "1"
 
-    option update_url "http://[USERNAME]:[PASSWORD]@{{ WWW_IPV4_HOST }}/nic/update?hostname=[DOMAIN]&myip=[IP]"
+    option update_url "https://[USERNAME]:[PASSWORD]@{{ WWW_IPV4_HOST }}/nic/update?hostname=[DOMAIN]&myip=[IP]"
     option ip_source "web"
-    option ip_url "http://{{ WWW_IPV4_HOST }}/myip"
+    option ip_url "https://{{ WWW_IPV4_HOST }}/myip"
 
     option domain "{{ host.get_fqdn|default:"&lt;your hostname&gt;" }}"
     option username "{{ host.get_fqdn|default:"&lt;your hostname&gt;" }}"
