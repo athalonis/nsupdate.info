@@ -56,7 +56,7 @@ class CreateDomainForm(forms.ModelForm):
 
     class Meta(object):
         model = Domain
-        fields = ['name', 'nameserver_ip', 'nameserver2_ip', 'nameserver_update_algorithm', 'comment']
+        fields = ['name', 'nameserver_update_algorithm', 'comment']
         widgets = {
             'name': forms.widgets.TextInput(attrs=dict(autofocus=None)),
         }
@@ -93,7 +93,7 @@ class EditDomainForm(forms.ModelForm):
 
     class Meta(object):
         model = Domain
-        fields = ['comment', 'nameserver_ip', 'nameserver2_ip', 'public', 'available',
+        fields = ['comment', 'public', 'available',
                   'nameserver_update_algorithm', 'nameserver_update_secret']
 
 
